@@ -31,3 +31,5 @@ https://www.youtube.com/watch?v=BdNqW63ZaB0
 mvn clean install
 mvn spring-boot:run
 docker-compose up -d
+
+# rename docker file
