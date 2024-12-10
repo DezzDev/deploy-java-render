@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aora.apirest.dto.JwtResponse;
 import com.aora.apirest.dto.LoginRequest;
 import com.aora.apirest.dto.RegisterRequest;
-
-
+import com.aora.apirest.dto.RegisterResponse;
 import com.aora.apirest.services.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,11 +31,11 @@ public class AuthController {
 
   // endpoint para registrar usuarios
   @PostMapping("/register")
-  public ResponseEntity<String> registerUser(@RequestBody RegisterRequest request) {
+  public ResponseEntity<RegisterResponse> registerUser(@RequestBody RegisterRequest request) {
     // se registra el usuario
     userService.registerUser(request);
     // se retorna una respuesta con el status code 200 y el mensaje "Usuario registrado con éxito"
-      return ResponseEntity.ok("Usuario registrado con éxito");
+      return ResponseEntity.ok(new RegisterResponse("Usuario registrado con éxito", "success"));
   }
 
   @PostMapping("/login")

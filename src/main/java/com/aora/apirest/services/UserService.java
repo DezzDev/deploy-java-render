@@ -10,6 +10,7 @@ import com.aora.apirest.dto.JwtResponse;
 import com.aora.apirest.dto.LoginRequest;
 import com.aora.apirest.dto.RegisterRequest;
 import com.aora.apirest.entities.Users;
+import com.aora.apirest.enums.Role;
 import com.aora.apirest.repositories.UserRepository;
 
 @Service
@@ -41,7 +42,11 @@ public class UserService {
     Users user = new Users();
     user.setEmail(request.getEmail());
     user.setPassword(passwordEncoder.encode((request.getPassword())));
-    user.setRole(request.getRole());
+    if(request.getRole() == null){
+      user.setRole(Role.USER);
+    }else{
+      user.setRole(request.getRole());
+    }
 
     userRepository.save(user);
 
