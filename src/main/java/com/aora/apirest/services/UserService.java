@@ -30,31 +30,29 @@ public class UserService {
 
 
   public void registerUser(RegisterRequest request) {
-    // verifica si el email o username ya existen
+
+    // verifica si el email ya existen
     if (userRepository.existsByEmail(request.getEmail())) {
       throw new RuntimeException("El correo ya existe");
-    }
-    if (request.getPassword().isEmpty()) {
-      throw new RuntimeException("La contraseña no puede estar vacía");
     }
 
     // crea un nuevo usuario con la contraseña encriptada
     Users user = new Users();
     user.setEmail(request.getEmail());
     user.setPassword(passwordEncoder.encode((request.getPassword())));
+    // si no se especifica el rol, se asigna el rol por defecto
     if(request.getRole() == null){
       user.setRole(Role.USER);
     }else{
       user.setRole(request.getRole());
     }
-
+    // guarda el usuario en la base de datos
     userRepository.save(user);
+    
 
-    // String token = jwtService.getToken(user);
-    // return new JwtResponse(token);
   }
 
-  public JwtResponse loginUser(LoginRequest request) {
+  public String loginUser(LoginRequest request) {
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
     Users user = userRepository.findByEmail(request.getEmail())
@@ -62,13 +60,8 @@ public class UserService {
     
     String token = jwtService.getToken(user);
 
-    JwtResponse jwtResponse = new JwtResponse(token);
-    return jwtResponse;
+    
+    return token;
   }
-
-  // public Users findByUsername(String username){
-  // return userRepository.findByUsername(username)
-  // .orElseThrow(()-> new UsernameNotFoundException("Usuario no encontrado"));
-  // }
 
 }

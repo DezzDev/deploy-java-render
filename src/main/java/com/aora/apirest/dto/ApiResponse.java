@@ -1,13 +1,13 @@
 package com.aora.apirest.dto;
 
-public class RegisterResponse {
+public class ApiResponse {
   private String message;
   private String status;
 
-  public RegisterResponse() {
+  public ApiResponse() {
   }
 
-  public RegisterResponse(String message, String status) {
+  public ApiResponse(String message, String status) {
       this.message = message;
       this.status = status;
   }
